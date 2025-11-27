@@ -1,5 +1,7 @@
 # SimpleCleaner 🧹
 
+[🇰🇷 한국어](README.md) | [🇺🇸 English](README_EN.md)
+
 **SimpleCleaner**는 마인크래프트 서버의 렉을 줄이기 위해 바닥에 떨어진 아이템을 주기적으로 삭제해주는 경량 플러그인입니다.
 
 ## ✨ 주요 기능
