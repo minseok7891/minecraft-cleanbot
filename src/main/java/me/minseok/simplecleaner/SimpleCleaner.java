@@ -6,17 +6,29 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class SimpleCleaner extends JavaPlugin implements CommandExecutor {
 
+    private FileConfiguration messagesConfig;
+
     @Override
     public void onEnable() {
+        // Save default config
+        saveDefaultConfig();
+        loadLanguage();
+
         // Register command
         if (getCommand("cleandrop") != null) {
             getCommand("cleandrop").setExecutor(this);
@@ -29,9 +41,9 @@ public class SimpleCleaner extends JavaPlugin implements CommandExecutor {
             @Override
             public void run() {
                 if (timeLeft == 30) {
-                    broadcast(ChatColor.RED + "[청소] " + ChatColor.YELLOW + "30초 뒤에 바닥에 떨어진 아이템이 삭제됩니다!");
+                    broadcast(getMessage("warning-30s"));
                 } else if (timeLeft == 5) {
-                    broadcast(ChatColor.RED + "[청소] " + ChatColor.YELLOW + "5초 뒤에 아이템이 삭제됩니다!");
+                    broadcast(getMessage("warning-5s"));
                 } else if (timeLeft <= 0) {
                     cleanItems();
                     timeLeft = 300; // Reset timer
@@ -43,15 +55,34 @@ public class SimpleCleaner extends JavaPlugin implements CommandExecutor {
         getLogger().info("SimpleCleaner has been enabled!");
     }
 
+    private void loadLanguage() {
+        String lang = getConfig().getString("lang", "en");
+        String fileName = "messages_" + lang + ".yml";
+        File messageFile = new File(getDataFolder(), fileName);
+
+        if (!messageFile.exists()) {
+            saveResource(fileName, false);
+        }
+
+        messagesConfig = YamlConfiguration.loadConfiguration(messageFile);
+
+        // Load default from JAR if file is empty or missing keys
+        InputStream defConfigStream = getResource(fileName);
+        if (defConfigStream != null) {
+            messagesConfig.setDefaults(YamlConfiguration
+                    .loadConfiguration(new InputStreamReader(defConfigStream, StandardCharsets.UTF_8)));
+        }
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("cleandrop")) {
             if (!sender.hasPermission("simplecleaner.cleandrop")) {
-                sender.sendMessage(ChatColor.RED + "권한이 없습니다.");
+                sender.sendMessage(getMessage("no-permission"));
                 return true;
             }
             cleanItems();
-            sender.sendMessage(ChatColor.GREEN + "강제로 아이템을 청소했습니다.");
+            sender.sendMessage(getMessage("manual-clean"));
             return true;
         }
         return false;
@@ -69,12 +100,20 @@ public class SimpleCleaner extends JavaPlugin implements CommandExecutor {
             }
         }
         if (count > 0) {
-            broadcast(ChatColor.RED + "[청소] " + ChatColor.GREEN + "바닥에 떨어진 아이템 " + ChatColor.YELLOW + count
-                    + ChatColor.GREEN + "개를 삭제했습니다.");
+            String msg = getMessage("clean-complete").replace("%count%", String.valueOf(count));
+            broadcast(msg);
         }
     }
 
     private void broadcast(String message) {
         Bukkit.broadcastMessage(message);
+    }
+
+    private String getMessage(String key) {
+        String prefix = getConfig().getString("prefix", "&8[&bSimpleCleaner&8] ");
+        String msg = messagesConfig.getString(key);
+        if (msg == null)
+            return "";
+        return ChatColor.translateAlternateColorCodes('&', prefix + msg);
     }
 }

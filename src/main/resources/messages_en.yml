@@ -1,0 +1,6 @@
+# English Messages
+warning-30s: "&eDropped items will be removed in &c30 seconds&e!"
+warning-5s: "&eDropped items will be removed in &c5 seconds&e!"
+clean-complete: "&aRemoved &e%count% &adropped items."
+no-permission: "&cYou do not have permission to use this command."
+manual-clean: "&aForce cleaned dropped items."

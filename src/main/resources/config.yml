@@ -1,0 +1,7 @@
+# SimpleCleaner Configuration
+
+# Language setting (en / ko)
+lang: en
+
+# Message Prefix
+prefix: "&8[&bSimpleCleaner&8] "

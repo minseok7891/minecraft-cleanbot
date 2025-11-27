@@ -1,0 +1,6 @@
+# Korean Messages
+warning-30s: "&e30초 뒤에 바닥에 떨어진 아이템이 삭제됩니다!"
+warning-5s: "&e5초 뒤에 아이템이 삭제됩니다!"
+clean-complete: "&a바닥에 떨어진 아이템 &e%count%&a개를 삭제했습니다."
+no-permission: "&c권한이 없습니다."
+manual-clean: "&a강제로 아이템을 청소했습니다."

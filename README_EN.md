@@ -25,7 +25,20 @@
 
 ## ⚙️ Configuration
 
-The current version works with default settings (5-minute interval) without a separate configuration file.
+When you run the plugin for the first time, configuration files are generated in the `plugins/SimpleCleaner/` folder.
+**You can edit these files to change settings without rebuilding the plugin.**
+
+### `config.yml`
+```yaml
+# Language setting (en / ko)
+lang: en
+
+# Message Prefix
+prefix: "&8[&bSimpleCleaner&8] "
+```
+
+### Customizing Messages
+You can edit `messages_en.yml` or `messages_ko.yml` to customize in-game messages.
 
 ## 🛠️ Build Instructions
 
