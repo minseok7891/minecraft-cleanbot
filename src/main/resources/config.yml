@@ -1,0 +1,23 @@
+# SimpleCleaner Configuration
+
+# Language setting (en / ko)
+lang: ko
+
+# Message Prefix
+prefix: "&8[&bSimpleCleaner&8] "
+
+# Whitelist (Items in this list will not be removed)
+# Supports wildcard '*' at the end (e.g. *_SHULKER_BOX)
+whitelist:
+  - "BEACON"
+  - "SHULKER_BOX"
+  - "*_SHULKER_BOX"
+  - "DIAMOND_BLOCK"
+  - "NETHERITE_BLOCK"
+
+
+# TPS Trigger Configuration
+# If the server TPS drops below the threshold, the cleaner will run automatically.
+tps-trigger:
+  enabled: true
+  threshold: 18.0

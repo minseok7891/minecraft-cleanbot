@@ -1,0 +1,8 @@
+name: Server-SimpleCleaner
+version: 1.0
+main: me.minseok.simplecleaner.SimpleCleaner
+api-version: 1.21
+commands:
+  cleandrop:
+    description: Force clean dropped items
+    permission: simplecleaner.cleandrop
